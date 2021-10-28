@@ -3,35 +3,43 @@ CURRENT=$(pwd)
 
 # Check CUDA_VERSION
 export CUDA_VERSION=$(nvcc --version| grep -Po "(\d+\.)+\d+" | head -1)
+export TORCH_CUDA_ARCH_LIST="5.2;5.3;6.0;6.1;6.2;7.0;7.2;7.5;8.0;8.6+PTX"
 
-sudo apt-get update && sudo apt-get install -y --allow-downgrades --allow-change-held-packages --no-install-recommends \
-        build-essential \
-        git \
-        curl \
-        vim \
-        tmux \
-        wget \
-        bzip2 \
-        unzip \
-        g++ \
-        ca-certificates \
-        ffmpeg \
-        libx264-dev \
-        imagemagick
+apt update -y && \
+    apt install python3 python3-pip git -y && \
+    rm -rf /var/lib/apt/lists/*
 
-# pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/lts/1.8/torch_lts.html
+ln -s /usr/bin/python3 /usr/bin/python
+
+apt update -y && DEBIAN_FRONTEND=noninteractive apt install -y --allow-downgrades --allow-change-held-packages --no-install-recommends \
+    build-essential \
+    cmake \
+    git \
+    curl \
+    vim \
+    tmux \
+    wget \
+    bzip2 \
+    unzip \
+    g++ \
+    ca-certificates \
+    ffmpeg \
+    libx264-dev \
+    imagemagick \
+    libnss3-dev \
+    ninja-build
+
+pip3 install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html
 
 for p in correlation channelnorm resample2d bias_act upfirdn2d; do
-  cd imaginaire/third_party/${p};
-  rm -rf build dist *info;
-  python setup.py install;
-  cd ${CURRENT};
+      cd ./src/imaginaire/third_party/${p};
+      rm -rf build dist *info;
+      python3 setup.py install;
+      cd ${CURRENT};
 done
 
 for p in gancraft/voxlib; do
-  cd imaginaire/model_utils/${p};
-  make all
-  cd ${CURRENT};
+      cd ./src/imaginaire/model_utils/${p};
+      make all
+      cd ${CURRENT};
 done
-
-pip install --upgrade -r scripts/requirements.txt

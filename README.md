@@ -1,58 +1,106 @@
-<img src="imaginaire_logo.svg" alt="imaginaire_logo.svg" height="360"/>
+# Demo: Few-Shot Video-to-Video Synthesis (Few-shot vid2vid)
+Pytorch implementation for few-shot photorealistic video-to-video translation. It can be used for generating human motions from poses, synthesizing people talking from edge maps, or turning semantic label maps into photo-realistic videos.
 
-# Imaginaire
-### [Docs](http://deepimagination.cc/) | [License](LICENSE.md) | [Installation](INSTALL.md) | [Model Zoo](MODELZOO.md)
+This README is adapted from the original project README for few-shot vid2vid.
 
-Imaginaire is a [pytorch](https://pytorch.org/) library that contains
-optimized implementation of several image and video synthesis methods developed at [NVIDIA](https://www.nvidia.com/en-us/).
+###
+[Project](https://nvlabs.github.io/few-shot-vid2vid/) |
+[Video (2m)](https://youtu.be/8AZBuyEuDqc) |
+[arXiv](https://arxiv.org/abs/1910.12713) |
+[Two Minute Papers Video](https://youtu.be/4J0cpdR7qec)
+
+<img alt='teaser' src='https://nvlabs.github.io/few-shot-vid2vid/web_gifs/illustration.gif' width='600'/>
 
 ## License
 
 Imaginaire is released under [NVIDIA Software license](LICENSE.md).
 For commercial use, please consult [researchinquiries@nvidia.com](researchinquiries@nvidia.com)
 
+## Software Installation (Docker)
+0. Make sure you have Docker and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) install for GPU-enabled Docker.
+1. Build the image with `docker build -t fsvid2vid .`
+2. Run the container
 
-## What's inside?
+## Hardware Requirement
+We trained our models using an NVIDIA DGX1 with 8 V100 32GB GPUs. You can try to use fewer GPUs or reduce the batch size if it does not fit in your GPU memory, but training stability and image quality cannot be guaranteed.
 
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/jgTX5OnAsYQ/0.jpg)](http://www.youtube.com/watch?v=jgTX5OnAsYQ "Imaginaire")
-
-We have a tutorial for each model. Click on the model name, and your browser should take you to the tutorial page for the project.
-
-### Supervised Image-to-Image Translation
-
-|Algorithm Name                               | Feature                                                                                                         | Publication                                                   |
-|:--------------------------------------------|:----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------:|
-|[pix2pixHD](projects/pix2pixhd/README.md)     | Learn a mapping that converts a semantic image to a high-resolution photorealistic image.                       |    [Wang et. al. CVPR 2018](https://arxiv.org/abs/1711.11585) |
-|[SPADE](projects/spade/README.md)             | Improve pix2pixHD on handling diverse input labels and delivering better output quality.                        |    [Park et. al. CVPR 2019](https://arxiv.org/abs/1903.07291) |
+## Datasets
 
 
-### Unsupervised Image-to-Image Translation
+### FaceForensics
+The authorssssssss the [FaceForensics](http://niessnerlab.org/projects/roessler2018faceforensics.html) dataset. We then use a landmark detection method (e.g. dlib) to estimate the face keypoints, and interpolate them to get face edges.
 
 
-|Algorithm Name                               | Feature                                                                                                         | Publication                                                   |
-|:--------------------------------------------|:----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------:|
-|[UNIT](projects/unit/README.md)               | Learn a one-to-one mapping between two visual domains.                                                          |    [Liu et. al. NeurIPS 2017](https://arxiv.org/abs/1703.00848) |
-|[MUNIT](projects/munit/README.md)             | Learn a many-to-many mapping between two visual domains.                                                        |    [Huang et. al. ECCV 2018](https://arxiv.org/abs/1804.04732) |
-|[FUNIT](projects/funit/README.md)             | Learn a style-guided image translation model that can generate translations in unseen domains.                  |    [Liu et. al. ICCV 2019](https://arxiv.org/abs/1905.01723) |
-|[COCO-FUNIT](projects/coco_funit/README.md)   | Improve FUNIT with a content-conditioned style encoding scheme for style code computation.                      |    [Saito et. al. ECCV 2020](https://arxiv.org/abs/2007.07431) |
+## Training
+The following shows the example commands to train few-shot vid2vid on the face dataset. Training on the pose dataset is also similar.
+- Download the dataset and put it in the format as following.
+```
+face_forensics
+└───images
+    └───seq0001
+        └───000001.jpg
+        └───000002.jpg
+        ...
+    └───seq0002
+        └───000001.jpg
+        └───000002.jpg
+        ...
+    ...
+└───landmarks-dlib68
+    └───seq0001
+        └───000001.json
+        └───000002.json
+        ...
+    └───seq0002
+        └───000001.json
+        └───000002.json
+        ...
+    ...
+```
 
+- Preprocess the data into LMDB format
 
-### Video-to-video Translation
+```bash
+python scripts/build_lmdb.py --config configs/projects/fs_vid2vid/face_forensics/ampO1.yaml --data_root [PATH_TO_DATA] --output_root datasets/face_forensics/lmdb/[train | val] --paired
+```
 
+- Train on 8 GPUs with AMPO1
 
-|Algorithm Name                               | Feature                                                                                                         | Publication                                                   |
-|:--------------------------------------------|:----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------:|
-|[vid2vid](projects/vid2vid/README.md)         | Learn a mapping that converts a semantic video to a photorealistic video.                                       |    [Wang et. al. NeurIPS 2018](https://arxiv.org/abs/1808.06601) |
-|[fs-vid2vid](projects/fs_vid2vid/README.md)   | Learn a subject-agnostic mapping that converts a semantic video and an example image to a photoreslitic video.  |    [Wang et. al. NeurIPS 2019](https://arxiv.org/abs/1808.06601) |
+```bash
+python -m torch.distributed.launch --nproc_per_node=8 train.py \
+--config configs/projects/fs_vid2vid/face_forensics/ampO1.yaml
+```
 
+## Inference
+- Download some test data by running
 
-### World-to-world Translation
+```bash
+python ./scripts/download_test_data.py --model_name fs_vid2vid
+```
 
+- Or arrange your own data into the same format as the training data described above.
 
-|Algorithm Name                               | Feature                                                                                                         | Publication                                                   |
-|:--------------------------------------------|:----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------:|
-|[wc-vid2vid](projects/wc_vid2vid/README.md)   | Improve vid2vid on view consistency and long-term consistency.                                                  |    [Mallya et. al. ECCV 2020](https://arxiv.org/abs/2007.08509) |
-|[GANcraft](projects/gancraft/README.md)   | Convert semantic block worlds to realistic-looking worlds.                                                  |    [Hao et. al. ICCV 2021](https://arxiv.org/abs/2104.07659) |
+- Translate facial landmarks to images
+  - Inference command
+    ```bash
+    python inference.py --single_gpu --num_workers 0 \
+    --config configs/projects/fs_vid2vid/face_forensics/ampO1.yaml \
+    --output_dir projects/fs_vid2vid/output/face_forensics
+    ```
 
+Below we show an example output video:
 
+<img alt="output" src='001.gif' width='600'/>
 
+## Citation
+If you use this code for your research, please cite our papers.
+
+```
+@inproceedings{wang2019fewshotvid2vid,
+   title     = {Few-shot Video-to-Video Synthesis},
+   author    = {Ting-Chun Wang and Ming-Yu Liu and Andrew Tao 
+                and Guilin Liu and Jan Kautz and Bryan Catanzaro},   
+   booktitle = {Conference on Neural Information Processing Systems (NeurIPS)}},
+   year      = {2019}
+}
+```
