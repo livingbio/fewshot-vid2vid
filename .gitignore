@@ -3,10 +3,6 @@ checkpoints/
 logs/
 results/
 
-.vscode
-*.ipynb
-Dockerfile
-
 docs/_build/
 nsys_profile*
 
