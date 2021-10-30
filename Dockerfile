@@ -4,13 +4,9 @@ ENTRYPOINT []
 
 COPY ./src /work/src
 COPY ./scripts /work/scripts
+COPY ./requirements.txt /work/requirements.txt
+
 WORKDIR /work
 RUN ./scripts/install.sh
-
-COPY ./requirements.txt /requirements.txt
-RUN pip3 install --ignore-installed --upgrade -r /requirements.txt
-
-RUN ./scripts/test_inference.sh
-RUN ./scripts/test_training.sh
 
 WORKDIR /work/src

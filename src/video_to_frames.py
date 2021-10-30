@@ -1,6 +1,7 @@
 import cv2
 import time
 import os
+import argparse
 
 def video_to_frames(input_loc, output_loc):
     """Function to extract frames from input video file
@@ -60,7 +61,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if not os.file.isfile(args.input_file):
+    if not os.path.isfile(args.input_file):
         raise FileNotFoundError("{} is not a valid file path".format(args.input_file))
 
     if not os.path.exists(args.output_dir):

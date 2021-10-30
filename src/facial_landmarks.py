@@ -4,7 +4,7 @@ import cv2
 import argparse
 import os
 import glob
-from image_utility import save_image, generate_random_color, draw_border
+from utils.image_utility import save_image, generate_random_color, draw_border
 from imutils import face_utils
 import json
 
@@ -59,10 +59,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input_dir', required=True, help='Input directory for the image')
     parser.add_argument('-w', '--weights',
-                    default='./shape_predictor_68_face_landmarks.dat', help='Facial Landmarks Model')
-    parser.add_argument("-p", "--prototxt", default="./deploy.prototxt.txt",
+                    default='./utils/shape_predictor_68_face_landmarks.dat', help='Facial Landmarks Model')
+    parser.add_argument("-p", "--prototxt", default="./utils/deploy.prototxt.txt",
                     help="Caffe 'deploy' prototxt file")
-    parser.add_argument("-m", "--model", default="./res10_300x300_ssd_iter_140000.caffemodel",
+    parser.add_argument("-m", "--model", default="./utils/res10_300x300_ssd_iter_140000.caffemodel",
                     help="Pre-trained caffe model")
     parser.add_argument("-t", "--thresold", type=float, default=0.6,
                     help="Thresold value to filter weak detections")
@@ -79,10 +79,10 @@ if __name__ == "__main__":
     # Landmark predictor
     predictor = dlib.shape_predictor(args.weights)
 
-    # if image is valid or not
+    # If image is valid or not
     image = None
     if args.input_dir:
-        # load input image
+        # Load input image
         if os.path.isfile(args.input_dir):
             img_name = args.input_dir
             image = cv2.imread(img_name)
@@ -95,14 +95,14 @@ if __name__ == "__main__":
                 face_detection(image, img_name_without_ext, args.landmark_output_dir)
 
         elif os.path.isdir(args.input_dir):
-            for img_name in glob.glob(os.path.join(args.input_dir, "*.jpg")):
+            for img_name in sorted(glob.glob(os.path.join(args.input_dir, "*.jpg"))):
                 image = cv2.imread(img_name)
                 img_name_without_ext = img_name.split("/")[-1].split(".")[0]
 
                 if image is None:
                     print("Please provide image ...")
                 else:
-                    print("Face detection for image")
+                    print("Face detection for {}".format(img_name_without_ext + ".jpg"))
                     face_detection(image, img_name_without_ext, args.landmark_output_dir)
 
         else:

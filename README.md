@@ -30,8 +30,8 @@
 - Memory：60 GB
 - CUDA Driver：460.119.04
 - CUDA：11.4
-- cuDNN: 8.x.x
-- Python version: 3.8.10
+- cuDNN：8.x.x
+- Python version：3.8.10
 
 ### 實際硬體用量
 - 模型大小（GPU）：2.5 GB（2502 MB）
