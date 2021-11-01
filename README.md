@@ -50,7 +50,7 @@
 
 ## 安裝方法 (使用 Docker)
 0. 在 host 上安裝 Docker and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) 以使用 GPU-enabled docker.
-1. Build the image with `docker build -t fsvid2vid .`
+1. Build the image with `docker build -t fs-vid2vid .`
 2. Run the container with `docker run -it --gpus all fs-vid2vid /bin/bash`
 
 ## Demo
