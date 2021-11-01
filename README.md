@@ -69,8 +69,7 @@
 將目前所在路徑移至 `/src`。
 
 ### 官方測試資料
-- 下載官方提供的測試資料
-
+下載官方提供的測試資料
 ```
 python download_test_data.py --model_name fs_vid2vid
 ```
@@ -96,7 +95,7 @@ data
     └───00002.mp4
 ```
 
-2. 將上面寫入 `/images` 和 `/landmarks-dlib68` 的測試資料放入 `projects/fs_vid2vid/test_data/faceForensics/driving`：
+4. 將上面寫入 `/images` 和 `/landmarks-dlib68` 的測試資料放入 `projects/fs_vid2vid/test_data/faceForensics/driving`：
 ```
 faceForensics
 └───reference
@@ -124,7 +123,7 @@ faceForensics
         ...
 ```
 
-3. 將欲轉移的人臉檔案放入 `projects/fs_vid2vid/test_data/faceForensics/reference`。
+5. 將欲轉移的人臉檔案放入 `projects/fs_vid2vid/test_data/faceForensics/reference`。
 
 比照上方處理 driving video 的流程，取得 reference image（e.g. `00000.jpg`）的臉部標記（e.g. `00000.json`），放入 `/reference` 內（只能放入一組）：
 ```
@@ -138,7 +137,7 @@ faceForensics
      ...
 ```
 
-4. 模型預測 (in `/src`)
+6. 模型預測 (in `/src`)
     ```bash
     python inference.py --single_gpu --num_workers 0 \
     --config configs/projects/fs_vid2vid/face_forensics/ampO1.yaml \
