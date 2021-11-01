@@ -53,6 +53,11 @@
 1. Build the image with `docker build -t fsvid2vid .`
 2. Run the container with `docker run -it --gpus all fs-vid2vid /bin/bash`
 
+## Demo
+1. Run the container with `docker run -it -p 8888:8888 --gpus all fs-vid2vid /bin/bash`
+2. Inside the container `/src` directory, run `jupyter notebook --ip 0.0.0.0 --no-browser --allow-root`
+3. Access notebook on the host machine with the url: `localhost:8888/tree`
+4. You will be prompted to enter a token, which is available in the container logs after the notebook kernel is started.
 
 ## 資料集
 
@@ -66,7 +71,7 @@
 ### 官方測試資料
 - 下載官方提供的測試資料
 
-```bash
+```
 python download_test_data.py --model_name fs_vid2vid
 ```
 
