@@ -30,3 +30,4 @@ face-alignment
 dlib
 clean-fid
 pytz
+jupyter
