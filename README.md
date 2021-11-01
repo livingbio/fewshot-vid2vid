@@ -61,7 +61,7 @@
 
 ## 安裝方法 (使用 Docker)
 0. 在 host 上安裝 Docker and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) 以使用 GPU-enabled docker.
-1. 如果欲使用 CUDA 和 GPU，確認 host 的 CUDA driver 是否支援 CUDA 11.1，如果不支援，可以使用較[低版本](https://hub.docker.com/r/nvidia/cuda/tags)的 CUDA image，另外修改[安裝的 torch 版本](https://github.com/achen353/imaginaire-fsvid2vid/blob/85a50b93da9adbf8f1f81d7ab8f284422e3118d7/scripts/install.sh#L34)，Few-shot vid2vid 含有需要自行編譯的 module，需要 torch 編譯的 CUDA 版本和容器 CUDA 版本一致。
+1. 如果欲使用 CUDA 和 GPU，確認 host 的 CUDA driver 是否支援 CUDA 11.1，如果不支援，可以使用較低版本的 CUDA [image](https://hub.docker.com/r/nvidia/cuda/tags)，另外修改[安裝的 torch 版本](https://github.com/achen353/imaginaire-fsvid2vid/blob/85a50b93da9adbf8f1f81d7ab8f284422e3118d7/scripts/install.sh#L34)，Few-shot vid2vid 含有需要自行編譯的 module，需要 torch 編譯的 CUDA 版本和容器 CUDA 版本一致。
 2. Build the image with `docker build -t fs-vid2vid .`
 3. Run the container with `docker run -it --gpus all fs-vid2vid /bin/bash`
 
