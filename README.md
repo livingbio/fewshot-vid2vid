@@ -157,5 +157,7 @@ faceForensics
 
 ## License
 
+Few-shot vid2vid 及其他 [Imaginaire](https://github.com/NVlabs/imaginaire) 模型只能用於非商業用途，即研究或測試用途，此用途規範下可以複製、重現、延伸、分享。Nvidia 及其相關單位保有使用任何從 Imaginaire 延伸產生的作品及專案的權利且能使用其於商業用途。
+
 Imaginaire is released under [NVIDIA Software license](LICENSE.md).
 For commercial use, please consult [researchinquiries@nvidia.com](researchinquiries@nvidia.com)
