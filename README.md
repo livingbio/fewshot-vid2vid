@@ -7,6 +7,17 @@
 
 <img alt='teaser' src='https://nvlabs.github.io/few-shot-vid2vid/web_gifs/illustration.gif' width='600'/>
 
+## 輸出範例
+
+<img alt="output" src='readme_assets/example-face-swap.gif' width='600'/>
+
+<img alt="output" src='readme_assets/andrew-face-swap.gif' width='600'/>
+
+<img alt="output" src='readme_assets/shang-chi-face-swap.gif' width='600'/>
+
+<img alt="output" src='readme_assets/david-statue-face-swap.gif' width='600'/>
+
+
 ## 限制
 ### Techincal Limitation
 - 最大輸出解析度：512x512
@@ -143,10 +154,6 @@ faceForensics
     --config configs/projects/fs_vid2vid/face_forensics/ampO1.yaml \
     --output_dir projects/fs_vid2vid/output/face_forensics
     ```
-
-輸出範例：
-
-<img alt="output" src='example.gif' width='600'/>
 
 ## License
 
