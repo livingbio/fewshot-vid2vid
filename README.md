@@ -71,9 +71,9 @@ python download_test_data.py --model_name fs_vid2vid
 ```
 
 ### 自行準備測試資料
-1. 將欲使用的影片放入 `projects/fs_vid2vid/data/videos` ，
-   1. 執行 `python video_to_frames.py -i projects/fs_vid2vid/data/video/00000.mp4 -o projects/fs_vid2vid/data/images/00000`。
-   2. 執行 `python facial_landmarks.py -i projects/fs_vid2vid/data/images/00000 -o projects/fs_vid2vid/data/landmarks-dlib68/00000`。
+1. 將欲使用的影片放入 `projects/fs_vid2vid/data/driving/videos`
+   1. 執行 `python video_to_frames.py -i projects/fs_vid2vid/data/driving/video/00000.mp4 -o projects/fs_vid2vid/data/driving/images/00000`。
+   2. 執行 `python facial_landmarks.py -i projects/fs_vid2vid/data/driving/images/00000 -o projects/fs_vid2vid/data/driving/landmarks-dlib68/00000`。
    3. 將檔案名替換以處理其他資料
 ```
 data
@@ -81,13 +81,15 @@ data
 └───landmarks-dlib68
 └───videos
     └───00000.mp4
+    └───00001.mp4
+    └───00002.mp4
 ```
 
-2. 將上面寫入 `/images` 和 `/landmarks-dlib68` 的測試資料放入 `projects/fs_vid2vid/test_data/faceForensics/driving`，比照訓練時資料的結構：
+2. 將上面寫入 `/images` 和 `/landmarks-dlib68` 的測試資料放入 `projects/fs_vid2vid/test_data/faceForensics/driving`：
 ```
 faceForensics
 └───reference
-    └───
+    ...
 └───driving
     └───images
         └───00000
@@ -113,6 +115,18 @@ faceForensics
 
 3. 將欲轉移的人臉檔案放入 `projects/fs_vid2vid/test_data/faceForensics/reference`。
 
+比照上方處理 driving video 的流程，取得 reference image（e.g. `00000.jpg`）的臉部標記（e.g. `00000.json`），放入 `/reference` 內（只能放入一組）：
+```
+faceForensics
+└───reference
+    └───images
+        └───00000.jpg
+    └───landmarks-dlib68
+        └───00000.json
+└───driving
+     ...
+```
+
 4. 模型預測 (in `/src`)
     ```bash
     python inference.py --single_gpu --num_workers 0 \
@@ -120,7 +134,7 @@ faceForensics
     --output_dir projects/fs_vid2vid/output/face_forensics
     ```
 
-An example output video:
+輸出範例：
 
 <img alt="output" src='example.gif' width='600'/>
 
