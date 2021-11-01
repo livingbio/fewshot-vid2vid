@@ -76,10 +76,16 @@ python download_test_data.py --model_name fs_vid2vid
 ```
 
 ### 自行準備測試資料
-1. 將欲使用的影片放入 `projects/fs_vid2vid/data/driving/videos`
-   1. 執行 `python video_to_frames.py -i projects/fs_vid2vid/data/driving/video/00000.mp4 -o projects/fs_vid2vid/data/driving/images/00000`。
-   2. 執行 `python facial_landmarks.py -i projects/fs_vid2vid/data/driving/images/00000 -o projects/fs_vid2vid/data/driving/landmarks-dlib68/00000`。
-   3. 將檔案名替換以處理其他資料
+將欲使用的影片放入 `projects/fs_vid2vid/data/driving/videos`
+1. 執行
+```
+python video_to_frames.py -i projects/fs_vid2vid/data/driving/video/00000.mp4 -o projects/fs_vid2vid/data/driving/images/00000
+```
+2. 執行
+```
+python facial_landmarks.py -i projects/fs_vid2vid/data/driving/images/00000 -o projects/fs_vid2vid/data/driving/landmarks-dlib68/00000
+```
+3. 將檔案名替換以處理其他資料
 ```
 data
 └───images
