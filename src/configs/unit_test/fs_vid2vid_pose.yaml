@@ -192,7 +192,7 @@ data:
     # Train dataset details.
     train:
         roots:
-            - dataset/unit_test/raw/vid2vid/pose
+            - dataset/unit_test/raw/fs_vid2vid/pose
         batch_size: 1
         initial_sequence_length: 4
         max_sequence_length: 16
@@ -203,7 +203,7 @@ data:
     # Validation dataset details.
     val:
         roots:
-            - dataset/unit_test/raw/vid2vid/pose
+            - dataset/unit_test/raw/fs_vid2vid/pose
         batch_size: 1
         augmentations:            
             resize_smallest_side: 540
