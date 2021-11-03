@@ -5,10 +5,10 @@ port: 80
 resources:
   requests:
     cpu: 1
-    memory: 4Gi
+    memory: 6Gi
   limits:
     cpu: 2
-    memory: 5Gi
+    memory: 8Gi
 
 automatic_scaling:
   min: 0
