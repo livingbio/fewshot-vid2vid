@@ -1,0 +1,23 @@
+project: living-bio
+application: fewshot-vid2vid
+port: 80
+
+resources:
+  requests:
+    cpu: 1
+    memory: 4Gi
+  limits:
+    cpu: 2
+    memory: 5Gi
+
+automatic_scaling:
+  min: 0
+  max: 1
+
+node:
+  scope: gpu
+
+env_variables:
+  SETTINGS: "app.conf.Base"
+
+cmd: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
