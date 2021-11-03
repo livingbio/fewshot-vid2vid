@@ -12,6 +12,3 @@ availableSecrets:
   - versionName: projects/734869178378/secrets/GITHUB_TOKEN/versions/latest
     env: GH_TOKEN
 logsBucket: 'gs://cloudbuild-log'
-© 2021 GitHub, Inc.
-Terms
-Privacy
