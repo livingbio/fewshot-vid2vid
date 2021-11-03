@@ -1,0 +1,11 @@
+{% include 'stage/_base.yaml.j2' %}
+
+compile:
+- export SETUPTOOLS_SCM_PRETEND_VERSION_FOR_FEWSHOT_VID2VID={{TAG}}
+
+build:
+- g8 stage builder # --cache
+
+deploy:
+- docker push {{IMAGE}}:{{TAG}}
+- bash ./scripts/deploy.sh
