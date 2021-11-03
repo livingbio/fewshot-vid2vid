@@ -1,0 +1,10 @@
+timeout: 3000s
+steps:
+
+# stage
+- name: asia.gcr.io/living-bio/g8:1.2
+  entrypoint: bash
+  args:
+  - '-c'
+  - g8 stage step auto --repo=$REPO_NAME --branch=$BRANCH_NAME --tag=$TAG_NAME --commit=$COMMIT_SHA --build=$BUILD_ID --verbose
+logsBucket: 'gs://cloudbuild-log'
