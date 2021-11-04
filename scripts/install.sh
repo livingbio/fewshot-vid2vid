@@ -29,7 +29,7 @@ apt update -y && DEBIAN_FRONTEND=noninteractive apt install -y --allow-downgrade
     libnss3-dev \
     ninja-build
 
-pip3 install --ignore-installed --upgrade -r requirements.txt
+pip3 install --ignore-installed --upgrade --no-cache-dir -r requirements.txt
 
 for p in correlation channelnorm resample2d bias_act upfirdn2d; do
       cd ./src/imaginaire/third_party/${p};
