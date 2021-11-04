@@ -1,0 +1,59 @@
+--find-links https://download.pytorch.org/whl/cu111/torch_stable.html
+
+# ---- AWS
+awscli_plugin_endpoint
+awscli
+boto3
+
+# ---- Basic
+cmake
+cython
+
+# ---- Database
+lmdb
+
+# ---- Encryption
+rsa
+
+# ---- GPU
+nvidia-ml-py3
+pynvml
+
+# ---- HTTP
+requests
+wget
+
+# ---- Image
+albumentations
+av
+face-alignment
+imageio-ffmpeg
+imutils
+lpips
+opencv-contrib-python
+opencv-python
+Pillow
+pyglet
+qimage2ndarray
+scikit-image
+scipy
+timm
+
+# --- Jupyter
+jupyter
+
+# ---- ML
+clean-fid
+dlib
+
+# ---- PyTorch
+torch
+torchvision
+
+# ---- Utility
+diskcache
+pip-tools
+pytz
+tensorboard
+tqdm
+wandb
