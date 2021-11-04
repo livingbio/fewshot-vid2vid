@@ -31,8 +31,6 @@ apt update -y && DEBIAN_FRONTEND=noninteractive apt install -y --allow-downgrade
 
 pip3 install --ignore-installed --upgrade -r requirements.txt
 
-pip3 install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html
-
 for p in correlation channelnorm resample2d bias_act upfirdn2d; do
       cd ./src/imaginaire/third_party/${p};
       rm -rf build dist *info;
