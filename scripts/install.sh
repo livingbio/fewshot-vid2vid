@@ -32,14 +32,14 @@ apt update -y && DEBIAN_FRONTEND=noninteractive apt install -y --allow-downgrade
 pip3 install --ignore-installed --upgrade --no-cache-dir -r requirements.txt
 
 for p in correlation channelnorm resample2d bias_act upfirdn2d; do
-      cd ./src/imaginaire/third_party/${p};
-      rm -rf build dist *info;
-      python3 setup.py install;
-      cd ${CURRENT};
+    cd ./src/imaginaire/third_party/${p};
+    rm -rf build dist *info;
+    python3 setup.py install;
+    cd ${CURRENT};
 done
 
 for p in gancraft/voxlib; do
-      cd ./src/imaginaire/model_utils/${p};
-      make all
-      cd ${CURRENT};
+    cd ./src/imaginaire/model_utils/${p};
+    make all
+    cd ${CURRENT};
 done
