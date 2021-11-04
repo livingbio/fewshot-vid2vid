@@ -1,4 +1,4 @@
-timeout: 4800s
+timeout: 7200s
 steps:
 
 # stage
