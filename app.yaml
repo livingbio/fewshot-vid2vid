@@ -1,5 +1,5 @@
 project: living-bio
-application: fewshot-vid2vid
+application: fsvid2vid
 port: 80
 
 resources:
