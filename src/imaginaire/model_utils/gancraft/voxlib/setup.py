@@ -6,7 +6,10 @@ from setuptools import setup
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension
 import os
 
-cxx_args = ['-fopenmp']
+cxx_args = list()
+cxx_args.append('-fopenmp')
+cxx_args.append('-Wall')
+cxx_args.append('-std=c++14')
 
 cuda_version = os.getenv('CUDA_VERSION')
 print('CUDA_VERSION: {}'.format(cuda_version))
@@ -20,6 +23,9 @@ if cuda_version is not None:
     if cuda_version >= '11.0':
         nvcc_args.append('-gencode')
         nvcc_args.append('arch=compute_80,code=sm_80')
+nvcc_args.append('-Xcompiler')
+nvcc_args.append('-Wall')
+nvcc_args.append('-std=c++14')
 
 setup(
     name='voxrender',
