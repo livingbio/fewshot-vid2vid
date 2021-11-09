@@ -27,7 +27,8 @@ apt update -y && DEBIAN_FRONTEND=noninteractive apt install -y --allow-downgrade
     libx264-dev \
     imagemagick \
     libnss3-dev \
-    ninja-build
+    ninja-build \
+    libomp-dev
 
 pip3 install --ignore-installed --upgrade --no-cache-dir -r requirements.txt
 
