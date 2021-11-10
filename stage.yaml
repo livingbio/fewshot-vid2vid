@@ -6,6 +6,11 @@ compile:
 build:
 - g8 stage builder # --cache
 
+test:
+# if the command is complicated, then pass a file to execute, the command also support jinja2
+- g8 stage runner {{IMAGE}}:{{TAG}} ./scripts/test_inference.sh
+- g8 stage runner {{IMAGE}}:{{TAG}} ./scripts/test_training.sh
+
 deploy:
 - docker push {{IMAGE}}:{{TAG}}
 - bash ./scripts/deploy.sh
