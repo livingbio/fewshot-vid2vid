@@ -90,7 +90,7 @@ python download_test_data.py --model_name fs_vid2vid
 將欲使用的影片放入 `projects/fs_vid2vid/data/driving/videos`
 1. 執行
 ```
-python video_to_frames.py -i projects/fs_vid2vid/data/driving/video/00000.mp4 -o projects/fs_vid2vid/data/driving/images/00000
+python video_to_frames.py -i projects/fs_vid2vid/data/driving/videos/00000.mp4 -o projects/fs_vid2vid/data/driving/images/00000
 ```
 2. 執行
 ```
@@ -114,24 +114,12 @@ faceForensics
     ...
 └───driving
     └───images
-        └───00000
-            └───000001.jpg
-            └───000002.jpg
-            ...
-        └───00001
-            └───000001.jpg
-            └───000002.jpg
-            ...
+         └───000001.jpg
+         └───000002.jpg
         ...
     └───landmarks-dlib68
-        └───00000
-            └───000001.json
-            └───000002.json
-            ...
-        └───00001
-            └───000001.json
-            └───000002.json
-            ...
+         └───000001.json
+         └───000002.json
         ...
 ```
 

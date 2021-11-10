@@ -1,6 +1,5 @@
 import argparse
 import os
-import sys
 import tarfile
 
 from imaginaire.utils.io import download_file_from_google_drive  # noqa: E402
