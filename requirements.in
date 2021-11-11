@@ -12,6 +12,11 @@ cython
 # ---- Database
 lmdb
 
+# ---- Deployment
+fastapi
+python-multipart
+uvicorn
+
 # ---- Encryption
 rsa
 

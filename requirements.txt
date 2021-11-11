@@ -10,12 +10,16 @@ absl-py==0.15.0
     # via tensorboard
 albumentations==1.1.0
     # via -r requirements.in
+anyio==3.3.4
+    # via starlette
 appnope==0.1.2
     # via
     #   ipykernel
     #   ipython
 argon2-cffi==21.1.0
     # via notebook
+asgiref==3.4.1
+    # via uvicorn
 attrs==21.2.0
     # via jsonschema
 av==8.0.3
@@ -52,6 +56,7 @@ clean-fid==0.1.15
 click==8.0.3
     # via
     #   pip-tools
+    #   uvicorn
     #   wandb
 cmake==3.21.4
     # via -r requirements.in
@@ -83,6 +88,8 @@ entrypoints==0.3
     #   nbconvert
 face-alignment==1.3.5
     # via -r requirements.in
+fastapi==0.70.0
+    # via -r requirements.in
 gitdb==4.0.9
     # via gitpython
 gitpython==3.1.24
@@ -95,8 +102,12 @@ google-auth-oauthlib==0.4.6
     # via tensorboard
 grpcio==1.41.1
     # via tensorboard
+h11==0.12.0
+    # via uvicorn
 idna==2.10
-    # via requests
+    # via
+    #   anyio
+    #   requests
 imageio==2.10.1
     # via scikit-image
 imageio-ffmpeg==0.4.5
@@ -290,6 +301,8 @@ pyasn1-modules==0.2.8
     # via google-auth
 pycparser==2.20
     # via cffi
+pydantic==1.8.2
+    # via fastapi
 pyglet==1.5.21
     # via -r requirements.in
 pygments==2.10.0
@@ -313,6 +326,8 @@ python-dateutil==2.8.2
     #   jupyter-client
     #   matplotlib
     #   wandb
+python-multipart==0.0.5
+    # via -r requirements.in
 pytz==2021.3
     # via -r requirements.in
 pywavelets==1.1.1
@@ -384,9 +399,14 @@ six==1.16.0
     #   grpcio
     #   promise
     #   python-dateutil
+    #   python-multipart
     #   wandb
 smmap==5.0.0
     # via gitdb
+sniffio==1.2.0
+    # via anyio
+starlette==0.16.0
+    # via fastapi
 subprocess32==3.5.4
     # via wandb
 tensorboard==2.7.0
@@ -451,6 +471,7 @@ traitlets==5.1.1
 typing-extensions==3.10.0.2
     # via
     #   gitpython
+    #   pydantic
     #   qudida
     #   torch
 urllib3==1.26.7
@@ -458,6 +479,8 @@ urllib3==1.26.7
     #   botocore
     #   requests
     #   sentry-sdk
+uvicorn==0.15.0
+    # via -r requirements.in
 wandb==0.12.6
     # via -r requirements.in
 wcwidth==0.2.5
