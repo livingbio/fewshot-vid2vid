@@ -41,8 +41,8 @@ def preprocess(image_path, video_path):
     subprocess.run(
         ["python", "./utils/facial_landmarks.py", "-i", image_path, "-o", temp_dir]
     )
-
-    shutil.rmtree(TEST_DATA_DIR)
+    if os.path.isdir(TEST_DATA_DIR):
+        shutil.rmtree(TEST_DATA_DIR)
 
     # Copy driving video files to destination folders
     video_frame_dest = os.path.join(TEST_DATA_DIR, "driving", "images")
@@ -55,10 +55,10 @@ def preprocess(image_path, video_path):
     image_landmark_dest = os.path.join(TEST_DATA_DIR, "reference", "landmarks-dlib68")
     os.makedirs(image_frame_dest, exist_ok=True)
     os.makedirs(image_landmark_dest, exist_ok=True)
-    shutil.copy(image_path, os.path.join(image_frame_dest, image_filename, ".jpg"))
+    shutil.copy(image_path, os.path.join(image_frame_dest, image_filename + ".jpg"))
     shutil.copy(
-        image_filename + ".json",
-        os.path.join(image_frame_dest, image_filename + ".json"),
+        os.path.join(Path(image_path).parent, image_filename + ".json"),
+        os.path.join(image_landmark_dest, image_filename + ".json"),
     )
 
 

@@ -65,19 +65,19 @@ if __name__ == "__main__":
     parser.add_argument(
         "-w",
         "--weights",
-        default="shape_predictor_68_face_landmarks.dat",
+        default="./utils/shape_predictor_68_face_landmarks.dat",
         help="Facial Landmarks Model",
     )
     parser.add_argument(
         "-p",
         "--prototxt",
-        default="deploy.prototxt.txt",
+        default="./utils/deploy.prototxt.txt",
         help="Caffe 'deploy' prototxt file",
     )
     parser.add_argument(
         "-m",
         "--model",
-        default="res10_300x300_ssd_iter_140000.caffemodel",
+        default="./utils/res10_300x300_ssd_iter_140000.caffemodel",
         help="Pre-trained caffe model",
     )
     parser.add_argument(

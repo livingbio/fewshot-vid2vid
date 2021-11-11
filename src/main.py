@@ -7,7 +7,7 @@ from typing import List
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 
-from fsvid2vid import preprocess
+from fsvid2vid import inference
 
 app = FastAPI()
 
@@ -36,7 +36,7 @@ def face_swap(files: List[UploadFile] = File(...)):
         finally:
             file.file.close()
 
-    preprocess(*tmp_filenames)
+    inference(*tmp_filenames)
 
     # https://stackoverflow.com/questions/59760739/how-do-i-return-a-dict-an-image-from-a-fastapi-endpoint
     return {"filenames": [file.filename for file in files]}, FileResponse(
