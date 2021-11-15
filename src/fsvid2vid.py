@@ -3,7 +3,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-output_path = "projects/fs_vid2vid/output/face_forensics"
+output_dir = "projects/fs_vid2vid/output/face_forensics"
 
 
 def preprocess(image_path, video_path):
@@ -65,6 +65,10 @@ def preprocess(image_path, video_path):
 def inference(image_path, video_path):
     preprocess(image_path, video_path)
     config_path = "configs/projects/fs_vid2vid/face_forensics/ampO1.yaml"
+
+    if os.path.isdir(output_dir):
+        shutil.rmtree(output_dir)
+
     subprocess.run(
         [
             "python",
@@ -75,6 +79,6 @@ def inference(image_path, video_path):
             "--config",
             config_path,
             "--output_dir",
-            output_path,
+            output_dir,
         ]
     )

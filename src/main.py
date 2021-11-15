@@ -7,7 +7,7 @@ from typing import List
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 
-from fsvid2vid import inference, output_path
+from fsvid2vid import inference, output_dir
 
 app = FastAPI()
 
@@ -39,7 +39,7 @@ def talking_head(files: List[UploadFile] = File(...)):
 
     # https://stackoverflow.com/questions/59760739/how-do-i-return-a-dict-an-image-from-a-fastapi-endpoint
     return {"input_files": [file.filename for file in files]}, FileResponse(
-        os.path.join(output_path, "00000.jpg"),
+        os.path.join(output_dir, "001.mp4"),
         media_type="video/mp4",
         filename="output.mp4",
     )
