@@ -7,15 +7,13 @@ from typing import List
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 
-from fsvid2vid import inference
+from fsvid2vid import inference, output_path
 
 app = FastAPI()
 
-root = "projects/fs_vid2vid/"
 
-
-@app.post("/face_swap")
-def face_swap(files: List[UploadFile] = File(...)):
+@app.post("/talking_head")
+def talking_head(files: List[UploadFile] = File(...)):
     # Check number of files uploaded
     if len(files) != 2:
         raise HTTPException(400, detail="Invalid number of files: expected 2 files")
@@ -36,13 +34,12 @@ def face_swap(files: List[UploadFile] = File(...)):
         finally:
             file.file.close()
 
+    # Model inference
     inference(*tmp_filenames)
 
     # https://stackoverflow.com/questions/59760739/how-do-i-return-a-dict-an-image-from-a-fastapi-endpoint
-    return {"filenames": [file.filename for file in files]}, FileResponse(
-        os.path.join(
-            root, "test_data", "faceForensics", "reference", "images", "00001.jpg"
-        ),
-        media_type="image/jpeg",
-        filename="test_out.jpg",
+    return {"input_files": [file.filename for file in files]}, FileResponse(
+        os.path.join(output_path, "00000.jpg"),
+        media_type="video/mp4",
+        filename="output.mp4",
     )

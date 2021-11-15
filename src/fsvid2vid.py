@@ -2,20 +2,19 @@ import os
 import shutil
 import subprocess
 from pathlib import Path
-from tempfile import gettempdir
 
-TEST_DATA_DIR = "projects/fs_vid2vid/test_data/faceForensics"
+output_path = "projects/fs_vid2vid/output/face_forensics"
 
 
 def preprocess(image_path, video_path):
-    temp_dir = gettempdir()
+    test_data_dir = "projects/fs_vid2vid/test_data/faceForensics"
 
-    video_filename = Path(video_path).stem
-    image_filename = Path(image_path).stem
-    video_frame_dir = os.path.join(temp_dir, video_filename, "frames")
-    video_landmark_dir = os.path.join(temp_dir, video_filename, "landmarks")
+    video_filename, video_parent = Path(video_path).stem, Path(video_path).parent
+    image_filename, image_parent = Path(image_path).stem, Path(image_path).parent
+    video_frame_dir = os.path.join(video_parent, video_filename, "frames")
+    video_landmark_dir = os.path.join(video_parent, video_filename, "landmarks")
 
-    # Generate frames for the video
+    # Generate frames for the video and save them to temporary video frame directory
     subprocess.run(
         [
             "python",
@@ -26,7 +25,7 @@ def preprocess(image_path, video_path):
             video_frame_dir,
         ]
     )
-    # Generate landmarks for the video frames
+    # Generate landmarks for the video frames and save them to temporary video landmark directory
     subprocess.run(
         [
             "python",
@@ -37,33 +36,35 @@ def preprocess(image_path, video_path):
             video_landmark_dir,
         ]
     )
-    # Generate landmarks for the reference image
+    # Generate landmarks (single image) for the reference image and save them temporary directory
     subprocess.run(
-        ["python", "./utils/facial_landmarks.py", "-i", image_path, "-o", temp_dir]
+        ["python", "./utils/facial_landmarks.py", "-i", image_path, "-o", image_parent]
     )
-    if os.path.isdir(TEST_DATA_DIR):
-        shutil.rmtree(TEST_DATA_DIR)
+
+    if os.path.isdir(test_data_dir):
+        shutil.rmtree(test_data_dir)
 
     # Copy driving video files to destination folders
-    video_frame_dest = os.path.join(TEST_DATA_DIR, "driving", "images")
-    video_landmark_dest = os.path.join(TEST_DATA_DIR, "driving", "landmarks-dlib68")
+    video_frame_dest = os.path.join(test_data_dir, "driving", "images")
+    video_landmark_dest = os.path.join(test_data_dir, "driving", "landmarks-dlib68")
     shutil.copytree(video_frame_dir, video_frame_dest)
     shutil.copytree(video_landmark_dir, video_landmark_dest)
 
     # Copy reference image files to destination folders
-    image_frame_dest = os.path.join(TEST_DATA_DIR, "reference", "images")
-    image_landmark_dest = os.path.join(TEST_DATA_DIR, "reference", "landmarks-dlib68")
+    image_frame_dest = os.path.join(test_data_dir, "reference", "images")
+    image_landmark_dest = os.path.join(test_data_dir, "reference", "landmarks-dlib68")
     os.makedirs(image_frame_dest, exist_ok=True)
     os.makedirs(image_landmark_dest, exist_ok=True)
     shutil.copy(image_path, os.path.join(image_frame_dest, image_filename + ".jpg"))
     shutil.copy(
-        os.path.join(Path(image_path).parent, image_filename + ".json"),
+        os.path.join(image_parent, image_filename + ".json"),
         os.path.join(image_landmark_dest, image_filename + ".json"),
     )
 
 
 def inference(image_path, video_path):
     preprocess(image_path, video_path)
+    config_path = "configs/projects/fs_vid2vid/face_forensics/ampO1.yaml"
     subprocess.run(
         [
             "python",
@@ -72,8 +73,8 @@ def inference(image_path, video_path):
             "--num_worker",
             "0",
             "--config",
-            "configs/projects/fs_vid2vid/face_forensics/ampO1.yaml",
+            config_path,
             "--output_dir",
-            "projects/fs_vid2vid/output/face_forensics",
+            output_path,
         ]
     )
