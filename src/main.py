@@ -1,45 +1,51 @@
 import os
-import shutil
-from pathlib import Path
+import typing
 from tempfile import NamedTemporaryFile
-from typing import List
 
-from fastapi import FastAPI, File, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+# import cloudinary
+import pydantic
+import requests
+from cloudinary.uploader import upload as cloudinary_upload
+from fastapi import FastAPI, HTTPException
 
 from fsvid2vid import inference, output_dir
 
 app = FastAPI()
 
 
-@app.post("/talking_head")
-def talking_head(files: List[UploadFile] = File(...)):
-    # Check number of files uploaded
-    if len(files) != 2:
-        raise HTTPException(400, detail="Invalid number of files: expected 2 files")
+class TalkingHeadRequest(pydantic.BaseModel):
+    driving_video_url: str
+    reference_image_url: str
 
-    # Sort files by filename extension
-    files = sorted(files, key=lambda f: Path(f.filename).suffix)
-    if files[0].content_type != "image/jpeg" or files[1].content_type != "video/mp4":
-        raise HTTPException(400, detail="Invalid files types: expected 1 jpg and 1 mp4")
 
-    # Write files to temporary directory
-    tmp_filenames = []
-    for file in files:
-        try:
-            suffix = Path(file.filename).suffix
-            with NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
-                shutil.copyfileobj(file.file, tmp)
-                tmp_filenames.append(tmp.name)
-        finally:
-            file.file.close()
+@app.post("/talking_head", response_model=typing.Dict[str, str])
+async def talking_head(request: TalkingHeadRequest):
+    # Check the content type of the URL before downloading the content
+    h = requests.head(request.reference_image_url, allow_redirects=True)
+    if "image/jpeg" not in h.headers["Content-Type"]:
+        raise HTTPException(400, detail="Invalid file type: expected jpg/jpeg")
+
+    h = requests.head(request.driving_video_url, allow_redirects=True)
+    if "video/mp4" not in h.headers["Content-Type"]:
+        raise HTTPException(400, detail="Invalid file type: expected mp4")
+
+    # Download and write files to temporary directory
+    resp = requests.get(request.reference_image_url)
+    with NamedTemporaryFile(delete=False, suffix=".jpg") as image_tmp:
+        image_tmp.write(resp.content)
+
+    resp = requests.get(request.driving_video_url)
+    with NamedTemporaryFile(delete=False, suffix=".mp4") as video_tmp:
+        video_tmp.write(resp.content)
 
     # Model inference
-    inference(*tmp_filenames)
+    inference(image_tmp.name, video_tmp.name)
 
-    # https://stackoverflow.com/questions/59760739/how-do-i-return-a-dict-an-image-from-a-fastapi-endpoint
-    return {"input_files": [file.filename for file in files]}, FileResponse(
+    # Upload model output
+    upload_resp = cloudinary_upload(
         os.path.join(output_dir, "001.mp4"),
-        media_type="video/mp4",
-        filename="output.mp4",
+        folder="fewshot-vid2vid-outputs",
+        resource_type="video",
     )
+
+    return {"output_url": upload_resp["url"]}
