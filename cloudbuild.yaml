@@ -2,7 +2,7 @@ timeout: 7200s
 steps:
 
 # stage
-- name: asia.gcr.io/living-bio/g8:1.2
+- name: gcr.io/google-containers/debian-base
   entrypoint: bash
   args:
     - '-c'
