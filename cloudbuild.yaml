@@ -2,7 +2,7 @@ timeout: 7200s
 steps:
 
 # stage
-- name: gcr.io/google-containers/debian-base:lastest
+- name: gcr.io/cloud-builders/curl:latest
   entrypoint: bash
   args:
     - '-c'
