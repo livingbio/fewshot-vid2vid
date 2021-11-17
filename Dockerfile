@@ -7,6 +7,6 @@ COPY ./scripts /work/scripts
 COPY ./requirements.txt /work/requirements.txt
 
 WORKDIR /work
-RUN ./scripts/install.sh
+#RUN ./scripts/install.sh
 
 WORKDIR /work/src
