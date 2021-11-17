@@ -18,6 +18,8 @@ node:
   scope: gpu
 
 env_variables:
-  SETTINGS: "app.conf.Base"
+  CLOUDINARY_CLOUD_NAME: %CLOUDINARY_CLOUD_NAME%
+  CLOUDINARY_API_KEY: %CLOUDINARY_API_KEY%
+  CLOUDINARY_API_SECRET: %CLOUDINARY_API_SECRET%
 
 cmd: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]

@@ -2,15 +2,22 @@ import os
 import typing
 from tempfile import NamedTemporaryFile
 
-# import cloudinary
+import cloudinary
 import pydantic
 import requests
 from cloudinary.uploader import upload as cloudinary_upload
 from fastapi import FastAPI, HTTPException
 
+from app.settings import config
 from fsvid2vid import inference, output_dir
 
 app = FastAPI()
+cloudinary.config(
+    cloud_name=config.CLOUDINARY_CLOUD_NAME,
+    api_key=config.CLOUDINARY_API_KEY,
+    api_secret=config.CLOUDINARY_API_SECRET,
+    secure=True,
+)
 
 
 class TalkingHeadRequest(pydantic.BaseModel):
