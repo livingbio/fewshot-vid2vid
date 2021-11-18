@@ -55,6 +55,9 @@ dlib
 torch
 torchvision
 
+# ---- Storage
+cloudinary
+
 # ---- Utility
 diskcache
 pip-tools

@@ -45,6 +45,7 @@ cachetools==4.2.4
     # via google-auth
 certifi==2021.10.8
     # via
+    #   cloudinary
     #   requests
     #   sentry-sdk
 cffi==1.15.0
@@ -58,6 +59,8 @@ click==8.0.3
     #   pip-tools
     #   uvicorn
     #   wandb
+cloudinary==1.28.0
+    # via -r requirements.in
 cmake==3.21.4
     # via -r requirements.in
 colorama==0.4.3
@@ -394,6 +397,7 @@ six==1.16.0
     # via
     #   absl-py
     #   bleach
+    #   cloudinary
     #   docker-pycreds
     #   google-auth
     #   grpcio
@@ -477,6 +481,7 @@ typing-extensions==3.10.0.2
 urllib3==1.26.7
     # via
     #   botocore
+    #   cloudinary
     #   requests
     #   sentry-sdk
 uvicorn==0.15.0
