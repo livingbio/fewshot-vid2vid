@@ -21,20 +21,25 @@ cloudinary.config(
 
 
 class TalkingHeadRequest(pydantic.BaseModel):
-    driving_video_url: str
     reference_image_url: str
+    driving_video_url: str
 
 
 @app.post("/talking_head", response_model=typing.Dict[str, str])
 async def talking_head(request: TalkingHeadRequest):
     # Check the content type of the URL before downloading the content
-    h = requests.head(request.reference_image_url, allow_redirects=True)
+    try:
+        h = requests.head(request.reference_image_url, allow_redirects=True)
+    except Exception:
+        raise HTTPException(400, detail="Invalid URL for image")
     if "image/jpeg" not in h.headers["Content-Type"]:
-        raise HTTPException(400, detail="Invalid file type: expected jpg/jpeg")
-
-    h = requests.head(request.driving_video_url, allow_redirects=True)
+        raise HTTPException(400, detail="Invalid image file type: expected jpg/jpeg")
+    try:
+        h = requests.head(request.driving_video_url, allow_redirects=True)
+    except Exception:
+        raise HTTPException(400, detail="Invalid URL for video")
     if "video/mp4" not in h.headers["Content-Type"]:
-        raise HTTPException(400, detail="Invalid file type: expected mp4")
+        raise HTTPException(400, detail="Invalid video file type: expected mp4")
 
     # Download and write files to temporary directory
     resp = requests.get(request.reference_image_url)
