@@ -89,68 +89,56 @@ python download_test_data.py --model_name fs_vid2vid
 ### 自行準備測試資料
 將欲使用的影片放入 `projects/fs_vid2vid/data/driving/videos`
 1. 執行
-```
-python video_to_frames.py -i projects/fs_vid2vid/data/driving/video/00000.mp4 -o projects/fs_vid2vid/data/driving/images/00000
-```
+   ```
+   python video_to_frames.py -i projects/fs_vid2vid/data/driving/videos/00000.mp4 -o projects/fs_vid2vid/data/driving/images/00000
+   ```
 2. 執行
-```
-python facial_landmarks.py -i projects/fs_vid2vid/data/driving/images/00000 -o projects/fs_vid2vid/data/driving/landmarks-dlib68/00000
-```
+   ```
+   python facial_landmarks.py -i projects/fs_vid2vid/data/driving/images/00000 -o projects/fs_vid2vid/data/driving/landmarks-dlib68/00000
+   ```
 3. 將檔案名替換以處理其他資料
-```
-data
-└───images
-└───landmarks-dlib68
-└───videos
-    └───00000.mp4
-    └───00001.mp4
-    └───00002.mp4
-```
+   ```
+   data
+   └───images
+   └───landmarks-dlib68
+   └───videos
+       └───00000.mp4
+       └───00001.mp4
+       └───00002.mp4
+   ```
 
 4. 將上面寫入 `/images` 和 `/landmarks-dlib68` 的測試資料放入 `projects/fs_vid2vid/test_data/faceForensics/driving`：
-```
-faceForensics
-└───reference
-    ...
-└───driving
-    └───images
-        └───00000
-            └───000001.jpg
-            └───000002.jpg
-            ...
-        └───00001
-            └───000001.jpg
-            └───000002.jpg
-            ...
-        ...
-    └───landmarks-dlib68
-        └───00000
-            └───000001.json
-            └───000002.json
-            ...
-        └───00001
-            └───000001.json
-            └───000002.json
-            ...
-        ...
-```
+   ```
+   faceForensics
+   └───reference
+       ...
+   └───driving
+       └───images
+            └───00001.jpg
+            └───00002.jpg
+           ...
+       └───landmarks-dlib68
+            └───00001.json
+            └───00002.json
+           ...
+   ```
 
 5. 將欲轉移的人臉檔案放入 `projects/fs_vid2vid/test_data/faceForensics/reference`。
 
-比照上方處理 driving video 的流程，取得 reference image（e.g. `00000.jpg`）的臉部標記（e.g. `00000.json`），放入 `/reference` 內（只能放入一組）：
-```
-faceForensics
-└───reference
-    └───images
-        └───00000.jpg
-    └───landmarks-dlib68
-        └───00000.json
-└───driving
-     ...
-```
+   比照上方處理 driving video 的流程，取得 reference image（e.g. `00000.jpg`）的臉部標記（e.g. `00000.json`），放入 `/reference` 內（只能放入一組）：
+   ```
+   faceForensics
+   └───reference
+       └───images
+           └───00000.jpg
+       └───landmarks-dlib68
+           └───00000.json
+   └───driving
+        ...
+   ```
 
 6. 模型預測 (in `/src`)
-    ```bash
+    ```
     python inference.py --single_gpu --num_workers 0 \
     --config configs/projects/fs_vid2vid/face_forensics/ampO1.yaml \
     --output_dir projects/fs_vid2vid/output/face_forensics
