@@ -433,7 +433,7 @@ timm==0.4.12
     # via -r requirements.in
 tomli==1.2.2
     # via pep517
-torch==1.10.0
+torch==1.9.0
     # via
     #   -r requirements.in
     #   clean-fid
@@ -441,7 +441,7 @@ torch==1.10.0
     #   lpips
     #   timm
     #   torchvision
-torchvision==0.11.1
+torchvision==0.10.0
     # via
     #   -r requirements.in
     #   clean-fid
